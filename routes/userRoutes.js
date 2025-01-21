@@ -3,30 +3,36 @@ const User = require("../models/User");
 
 const router = express.Router();
 
-// Get all users
-router.get("/", async (req, res) => {
+router.post("/", async (req, res) => {
+  const { name, email, password } = req.body;
+
+  if (!name || !email || !password) {
+    return res
+      .status(400)
+      .json({ message: "Name, email, and password are required" });
+  }
+
   try {
-    const users = await User.find();
-    res.json(users);
+    const user = new User({ name, email, password });
+    await user.save();
+    res
+      .status(201)
+      .json({ message: "User created successfully", userId: user._id });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    if (err.code === 11000) {
+      res.status(400).json({ message: "Email already exists" });
+    } else {
+      res.status(500).json({ message: "Server error" });
+    }
   }
 });
 
-// Create a new user
-router.post("/", async (req, res) => {
-  const { name, email } = req.body;
-
-  const user = new User({
-    name,
-    email,
-  });
-
+router.get("/", async (req, res) => {
   try {
-    const savedUser = await user.save();
-    res.status(201).json(savedUser);
+    const users = await User.find();
+    res.status(200).json(users);
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    res.status(500).json({ message: "Server error" });
   }
 });
 

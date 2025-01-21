@@ -1,56 +1,30 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+
+// Initialize Express app
 const app = express();
 
 // Middleware
 app.use(cors());
 app.use(express.json());
 
-// MongoDB connection
+// MongoDB Connection
 mongoose
-  .connect("mongodb://localhost:27017/mydatabase", {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => {
-    console.log("MongoDB connected");
-  })
-  .catch((err) => {
-    console.error("MongoDB connection error:", err);
-  });
+  .connect("mongodb://localhost:27017/mydatabase") // Removed deprecated options
+  .then(() => console.log("MongoDB connected"))
+  .catch((err) => console.error("MongoDB connection error:", err));
 
-// User Schema and Model
-const userSchema = new mongoose.Schema({
-  name: String,
-  email: String,
-});
-const User = mongoose.model("User", userSchema);
-
-// Routes
-// Get all users
-app.get("/api/users", async (req, res) => {
-  try {
-    const users = await User.find();
-    res.json(users);
-  } catch (err) {
-    res.status(500).json({ message: "Server error" });
-  }
+// Default Route
+app.get("/", (req, res) => {
+  res.send("Welcome to the API!");
 });
 
-// Add a new user
-app.post("/api/users", async (req, res) => {
-  const { name, email } = req.body;
-  try {
-    const newUser = new User({ name, email });
-    await newUser.save();
-    res.status(201).json(newUser);
-  } catch (err) {
-    res.status(500).json({ message: "Server error" });
-  }
-});
+// Import and Use Routes
+const userRoutes = require("./routes/userRoutes"); // Path to your router file
+app.use("/api/users", userRoutes); // Connects /api/users endpoint to the router
 
-// Start the server
+// Start the Server
 const PORT = 5000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
