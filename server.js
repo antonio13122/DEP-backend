@@ -1,17 +1,25 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const dotenv = require("dotenv");
 const cors = require("cors");
+const authRoutes = require("./routes/auth.js");
 
-// Initialize Express app
+dotenv.config();
 const app = express();
+
+// Check if JWT_SECRET is present in the environment
+if (!process.env.JWT_SECRET) {
+  throw new Error("JWT_SECRET is not set in the environment variables");
+}
 
 // Middleware
 app.use(cors());
 app.use(express.json());
+app.use("/api/auth", authRoutes);
 
 // MongoDB Connection
 mongoose
-  .connect("mongodb://localhost:27017/mydatabase")
+  .connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.error("MongoDB connection error:", err));
 
@@ -20,6 +28,7 @@ app.get("/", (req, res) => {
   res.send("Welcome to the API!");
 });
 
+// User Routes
 const userRoutes = require("./routes/userRoutes");
 app.use("/api/users", userRoutes);
 
