@@ -52,9 +52,12 @@ router.post("/login", async (req, res) => {
       expiresIn: "1h",
     });
 
+    // Add isSailor flag for frontend use
+    const isSailor = user.email === "sailor@gmail.com";
+
     res.json({
       token,
-      user: { id: user._id, name: user.name, email: user.email },
+      user: { id: user._id, name: user.name, email: user.email, isSailor },
     });
   } catch (error) {
     console.error(error);
