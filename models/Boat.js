@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-
 const boatSchema = new mongoose.Schema({
   broj_broda: { type: Number, required: true, unique: true },
   ime_broda: { type: String, required: true },
@@ -12,6 +11,5 @@ const boatSchema = new mongoose.Schema({
   },
   user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
 });
-
 const Boat = mongoose.model("Boat", boatSchema);
 module.exports = Boat;
