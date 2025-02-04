@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const authRoutes = require("./routes/auth.js");
+const boatRoutes = require("./routes/boatRoutes");
 
 dotenv.config();
 const app = express();
@@ -16,6 +17,7 @@ if (!process.env.JWT_SECRET) {
 app.use(cors());
 app.use(express.json());
 app.use("/api/auth", authRoutes);
+app.use("/api/boats", boatRoutes);
 
 // MongoDB Connection
 mongoose
