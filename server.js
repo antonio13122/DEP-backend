@@ -18,6 +18,7 @@ app.use(cors());
 app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/boats", boatRoutes);
+app.use("/api/boats/all", boatRoutes);
 
 // MongoDB Connection
 mongoose
