@@ -1,8 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const Mooring = require("../models/Mooring");
+const Boat = require("../models/Boat");
 
-// get all
+// all moorings
 router.get("/", async (req, res) => {
   try {
     const moorings = await Mooring.find().populate("boat");
@@ -12,7 +13,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-// get one
+// single mooring
 router.get("/:id", async (req, res) => {
   try {
     const mooring = await Mooring.findById(req.params.id).populate("boat");
@@ -23,7 +24,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// new
+//  new mooring
 router.post("/", async (req, res) => {
   try {
     const { number, max_gaz } = req.body;
@@ -35,10 +36,10 @@ router.post("/", async (req, res) => {
   }
 });
 
-// update
+// update mooring
 router.put("/:id", async (req, res) => {
   try {
-    const { boat } = req.body; // boat = null to remove, boat = boatId to assign
+    const { boat } = req.body;
     const updatedMooring = await Mooring.findByIdAndUpdate(
       req.params.id,
       { boat },
@@ -53,7 +54,7 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-// delete
+// delete mooring
 router.delete("/:id", async (req, res) => {
   try {
     const deletedMooring = await Mooring.findByIdAndDelete(req.params.id);
@@ -62,6 +63,46 @@ router.delete("/:id", async (req, res) => {
     res.json({ message: "Mooring deleted successfully" });
   } catch (error) {
     res.status(500).json({ error: "Error deleting mooring" });
+  }
+});
+
+// add boat
+router.post("/:id/add", async (req, res) => {
+  try {
+    const { boatId } = req.body;
+
+    const updatedMooring = await Mooring.findByIdAndUpdate(
+      req.params.id,
+      { boat: boatId },
+      { new: true }
+    ).populate("boat");
+
+    if (!updatedMooring) {
+      return res.status(404).json({ error: "Mooring not found" });
+    }
+
+    res.json(updatedMooring);
+  } catch (error) {
+    res.status(500).json({ error: "Error adding boat to mooring" });
+  }
+});
+
+// remove a boat from a mooring
+router.post("/:id/remove", async (req, res) => {
+  try {
+    const updatedMooring = await Mooring.findByIdAndUpdate(
+      req.params.id,
+      { boat: null },
+      { new: true }
+    ).populate("boat");
+
+    if (!updatedMooring) {
+      return res.status(404).json({ error: "Mooring not found" });
+    }
+
+    res.json(updatedMooring);
+  } catch (error) {
+    res.status(500).json({ error: "Error removing boat from mooring" });
   }
 });
 
