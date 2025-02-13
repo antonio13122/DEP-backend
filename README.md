@@ -103,7 +103,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 ```bash
 # Clone this repository
 
-$ git clone https://github.com/antonio13122/DEP-frontend
+$ git clone https://github.com/antonio13122/DEP-backend
 ```
 
 ## Prototypes and diagrams
