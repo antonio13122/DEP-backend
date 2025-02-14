@@ -68,9 +68,17 @@ router.delete("/:id", async (req, res) => {
 });
 
 // add boat
+
 router.post("/:id/add", async (req, res) => {
   try {
     const { boatId } = req.body;
+
+    const existingMooring = await Mooring.findOne({ boat: boatId });
+    if (existingMooring) {
+      return res
+        .status(400)
+        .json({ error: "This boat already has a mooring!" });
+    }
 
     const updatedMooring = await Mooring.findByIdAndUpdate(
       req.params.id,
@@ -81,6 +89,7 @@ router.post("/:id/add", async (req, res) => {
     if (!updatedMooring) {
       return res.status(404).json({ error: "Mooring not found" });
     }
+
     await History.create({
       mooring: req.params.id,
       boat: boatId,
@@ -107,7 +116,7 @@ router.post("/:id/remove", async (req, res) => {
       { new: true }
     ).populate("boat");
 
-    // Save history record only if there was a boat to remove
+    // Save history
     if (removedBoatId) {
       await History.create({
         mooring: req.params.id,
