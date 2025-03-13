@@ -1,17 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Reservation = require("../models/Reservation");
-
-router.get("/", async (req, res) => {
-  try {
-    const reservations = await Reservation.find().populate(
-      "boat owner mooring"
-    );
-    res.json(reservations);
-  } catch (error) {
-    res.status(500).json({ error: "Error fetching reservations" });
-  }
-});
+const verifyToken = require("../middleware/auth");
 
 router.post("/", async (req, res) => {
   try {
@@ -31,4 +21,25 @@ router.post("/", async (req, res) => {
   }
 });
 
+router.get("/", verifyToken, async (req, res) => {
+  try {
+    const userId = req.user.id;
+    if (!userId) {
+      return res.status(400).json({ error: "User ID is required" });
+    }
+
+    const reservations = await Reservation.find({ owner: userId }).populate(
+      "boat owner mooring"
+    );
+
+    if (reservations.length === 0) {
+      return res.status(404).json({ message: "No reservations found" });
+    }
+
+    res.json(reservations);
+  } catch (error) {
+    console.error("Error fetching reservations:", error);
+    res.status(500).json({ error: "Error fetching reservations" });
+  }
+});
 module.exports = router;

@@ -6,7 +6,6 @@ const authRoutes = require("./routes/auth.js");
 const boatRoutes = require("./routes/boatRoutes");
 const MooringRoutes = require("./routes/MooringRoutes");
 const reservationRoutes = require("./routes/reservationRoutes");
-const paymentRoutes = require("./routes/paymentRoutes");
 
 dotenv.config();
 const app = express();
@@ -24,7 +23,6 @@ app.use("/api/boats", boatRoutes);
 app.use("/api/boats/all", boatRoutes);
 app.use("/api/moorings", MooringRoutes);
 app.use("/api/reservations", reservationRoutes);
-app.use("/api/payments", paymentRoutes);
 
 // MongoDB Connection
 mongoose
