@@ -2,10 +2,10 @@ const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const cors = require("cors");
-const authRoutes = require("./routes/auth.js");
-const boatRoutes = require("./routes/boatRoutes");
-const MooringRoutes = require("./routes/MooringRoutes");
-const reservationRoutes = require("./routes/reservationRoutes");
+const authRoutes = require("../routes/auth.js");
+const boatRoutes = require("../routes/boatRoutes.js");
+const MooringRoutes = require("../routes/MooringRoutes.js");
+const reservationRoutes = require("../routes/reservationRoutes.js");
 
 dotenv.config();
 const app = express();
@@ -36,7 +36,7 @@ app.get("/", (req, res) => {
 });
 
 // User Routes
-const userRoutes = require("./routes/userRoutes");
+const userRoutes = require("../routes/userRoutes.js");
 app.use("/api/users", userRoutes);
 
 const PORT = process.env.Port || 5000;
