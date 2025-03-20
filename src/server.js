@@ -6,6 +6,7 @@ const authRoutes = require("../routes/auth.js");
 const boatRoutes = require("../routes/boatRoutes.js");
 const MooringRoutes = require("../routes/MooringRoutes.js");
 const reservationRoutes = require("../routes/reservationRoutes.js");
+require("dotenv").config({ path: "../.env" });
 
 dotenv.config();
 const app = express();
