@@ -43,6 +43,9 @@
 Course: [Software Engineering](#link)  
 Mentors: [doc.dr.sc. Nikola Tanković](#link)
 
+See project [DEP](https://depfipu1.netlify.app/).
+Video presentation [DEP](https://www.youtube.com/watch?v=PAU0wR92PkY&t=5s&ab_channel=AntonioSajbic).
+
 ## Description
 
 At **DEP**, we are dedicated to enhancing and improving the efficiency of marina operations. Our platform is providing a space where boat owners can manage their boats, book berths, and track arrivals and departures with ease. By simplifying boat management, we help sailors optimize their marina experience.
@@ -50,10 +53,6 @@ At **DEP**, we are dedicated to enhancing and improving the efficiency of marina
 Every day, marinas face the challenge of coordinating available spaces and managing boat movements. At the same time, boat owners struggle to find available berths and organize their boat schedules. **DEP** bridges this gap by providing a comprehensive solution that empowers sailors to take control of their marina experience, from berth booking to boat details management. Together, we can foster a more organized, efficient, and connected boating community, where sailors can focus on what truly matters—enjoying their time on the water.
 
 ## Key Features
-
-Certainly! Here's a more polished, professional version of the list with adjusted numbering:
-
----
 
 1.  **Boat Management**: Sailors can efficiently input, update, and manage crucial boat details.
 2.  **Marina Operations**: Seamlessly track boat arrivals and departures, ensuring the marina runs smoothly and is always organized.
